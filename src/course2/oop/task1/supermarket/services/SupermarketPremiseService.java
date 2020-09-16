@@ -11,10 +11,14 @@ public class SupermarketPremiseService {
     public SupermarketPremiseService() {
     }
 
-    public void addTradeHall(ProductBase prod, Integer count) {
-        if (this.tradeHall == null) {
-            this.tradeHall = new HashMap<ProductBase, String>();
+    public void add(SupermarketPremise prem, ProductBase prod, Integer count) {
+        if (prem.getContent() == null) {
+            prem.setContent(new HashMap<ProductBase, Integer>());
         }
-        this.tradeHall.put(prod, count);
+        prem.getContent().put(prod, count);
+    }
+
+    public void remove(SupermarketPremise prem, ProductBase prod, Integer count) {
+        
     }
 }

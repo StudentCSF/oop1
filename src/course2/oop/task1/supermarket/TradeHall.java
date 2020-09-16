@@ -6,7 +6,8 @@ import java.util.Map;
 
 public class TradeHall extends SupermarketPremise {
 
-    public TradeHall(Map<ProductBase, Integer> content) {
-        super(content);
+
+    public TradeHall(int capacity) {
+        super(capacity);
     }
 }

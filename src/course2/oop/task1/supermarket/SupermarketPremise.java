@@ -5,9 +5,11 @@ import course2.oop.task1.products.*;
 import java.util.Map;
 
 public abstract class SupermarketPremise {
-    Map<ProductBase, Integer> content;
+    private Map<ProductBase, Integer> content;
+    private int capacity;
 
-    public SupermarketPremise() {
+    public SupermarketPremise(int capacity) {
+        this.capacity = capacity;
     }
 
     public Map<ProductBase, Integer> getContent() {
@@ -16,5 +18,18 @@ public abstract class SupermarketPremise {
 
     public void setContent(Map<ProductBase, Integer> content) {
         this.content = content;
+    }
+
+    public int getCapacity() {
+        return this.capacity;
+    }
+
+    public int getOccupancy() {
+        int occ = 0;
+
+        for (Map.Entry<ProductBase, Integer> kv : this.content.entrySet()) {
+            occ += kv.getValue();
+        }
+        return occ;
     }
 }
