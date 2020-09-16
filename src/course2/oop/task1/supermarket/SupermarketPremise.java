@@ -5,7 +5,7 @@ import course2.oop.task1.products.*;
 import java.util.Map;
 
 public abstract class SupermarketPremise {
-    private Map<ProductBase, Integer> content;
+    private Map<ProductBase, Integer> content = null;
     private int capacity;
 
     public SupermarketPremise(int capacity) {

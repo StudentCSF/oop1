@@ -8,17 +8,14 @@ import java.util.Map;
 
 public class SupermarketPremiseService {
 
-    public SupermarketPremiseService() {
-    }
-
-    public void add(SupermarketPremise prem, ProductBase prod, Integer count) {
+    public void add(SupermarketPremise prem, ProductBase prod, int count) {
         if (prem.getContent() == null) {
             prem.setContent(new HashMap<ProductBase, Integer>());
         }
         prem.getContent().put(prod, count);
     }
 
-    public void remove(SupermarketPremise prem, ProductBase prod, Integer count) {
-        
+    public void remove(SupermarketPremise prem, ProductBase prod, int count) {
+
     }
 }
