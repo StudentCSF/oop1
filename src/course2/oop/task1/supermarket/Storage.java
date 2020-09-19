@@ -6,7 +6,4 @@ import java.util.Map;
 
 public class Storage extends SupermarketPremise {
 
-    public Storage(int capacity) {
-        super(capacity);
-    }
 }
