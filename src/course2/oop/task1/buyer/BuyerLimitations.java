@@ -4,5 +4,5 @@ public class BuyerLimitations {
     private static final String MEAT = "meat";
     private static final String MILK = "milk";
     private static final String CHEM = "chem";
-    private static final String GRGR = "grgr";
+    private static final String VaF = "vaf";
 }
