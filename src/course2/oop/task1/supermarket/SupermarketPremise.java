@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class SupermarketPremise {
-    private Map<ProductBase, Pair<Integer, String>> content = null;
+    private Map<BaseProduct, Pair<Double, String>> products;
 
-    public Map<ProductBase, Pair<Integer, String>> getContent() {
-        return this.content;
+    public void setProducts(Map<BaseProduct, Pair<Double, String>> products) {
+        this.products = products;
     }
 
-    public void setContent(HashMap<ProductBase, course2.oop.task1.utils.Pair<Integer, String>> content) {
-        this.content = content;
+    public Map<BaseProduct, Pair<Double, String>> getProducts() {
+        return products;
     }
 }
