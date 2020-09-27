@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Alcohol extends BaseProduct {
 
-    public Alcohol(double cost, int expDate, Date productionDate) {
-        super(cost, expDate, productionDate,"pcs");
+    public Alcohol(double cost, int expDate, Date productionDate, MeasureUnit mu) {
+        super(cost, expDate, productionDate,mu);
     }
 }

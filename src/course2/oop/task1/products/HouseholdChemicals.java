@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class HouseholdChemicals extends BaseProduct {
 
-    public HouseholdChemicals(double cost, int expDate, Date productionDate) {
-        super(cost, expDate, productionDate ,"pcs");
+    public HouseholdChemicals(double cost, int expDate, Date productionDate, MeasureUnit mu) {
+        super(cost, expDate, productionDate , mu);
     }
 }

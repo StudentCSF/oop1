@@ -4,15 +4,16 @@ import course2.oop.task1.products.BaseProduct;
 import course2.oop.task1.utils.Pair;
 
 import java.util.Map;
+import java.util.Set;
 
 
 public class Buyer {
     private int age;
     private double availableMoney;
     private Map<BaseProduct, Pair<Double, String>> shoppingList;
-    private String[] limitations;
+    private Set<BuyerLimitations> limitations;
 
-    public Buyer(int age, double availableMoney, Map<BaseProduct, Pair<Double, String>> shoppingList, String[] limits) {
+    public Buyer(int age, double availableMoney, Map<BaseProduct, Pair<Double, String>> shoppingList, Set<BuyerLimitations> limits) {
         this.age = age;
         this.availableMoney = availableMoney;
         this.shoppingList = shoppingList;
@@ -31,7 +32,7 @@ public class Buyer {
         return shoppingList;
     }
 
-    public String[] getLimitations() {
+    public Set<BuyerLimitations> getLimitations() {
         return limitations;
     }
 

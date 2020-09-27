@@ -1,6 +1,7 @@
 package course2.oop.task1.supermarket.services;
 
 import course2.oop.task1.products.BaseProduct;
+import course2.oop.task1.products.MeasureUnit;
 import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.supermarket.SupermarketPremise;
 import course2.oop.task1.utils.Pair;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public class SupermarketService {
 
-    public void fillSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, String>> prods) {
+    public void fillSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
         if (market.getStorage() == null) {
             SupermarketPremise sp = new SupermarketPremise();
             sp.setProducts(prods);
@@ -22,29 +23,29 @@ public class SupermarketService {
         }
     }
 
-    public void addStorage(Supermarket market, Map<BaseProduct, Pair<Double, String>> prods) {
+    public void addStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
         if (market.getStorage() == null) {
             fillSupermarketStorage(market, prods);
         } else {
-            for (Map.Entry<BaseProduct, Pair<Double, String>> pc : prods.entrySet()) {
+            for (Map.Entry<BaseProduct, Pair<Double, MeasureUnit>> pc : prods.entrySet()) {
                 if (!market.getStorage().getProducts().containsKey(pc.getKey())) {
                     market.getStorage().getProducts().put(pc.getKey(), pc.getValue());
                 } else {
-                    market.getStorage().getProducts().put(pc.getKey(), new Pair<Double, String>(market.getStorage().getProducts().get(pc.getKey()).getKey() + pc.getValue().getKey(), pc.getValue().getValue()));
+                    market.getStorage().getProducts().put(pc.getKey(), new Pair<Double, MeasureUnit>(market.getStorage().getProducts().get(pc.getKey()).getKey() + pc.getValue().getKey(), pc.getValue().getValue()));
                 }
             }
         }
     }
 
-    public Map<BaseProduct, Pair<Double, String>> removeFromSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, String>> prods) {
-        Map<BaseProduct, Pair<Double, String>> removedProducts = new HashMap<>();
+    public Map<BaseProduct, Pair<Double, MeasureUnit>> removeFromSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
+        Map<BaseProduct, Pair<Double, MeasureUnit>> removedProducts = new HashMap<>();
 
         if (market.getStorage() != null) {
-            for (Map.Entry<BaseProduct, Pair<Double, String>> pc : prods.entrySet()) {
+            for (Map.Entry<BaseProduct, Pair<Double, MeasureUnit>> pc : prods.entrySet()) {
                 if (market.getStorage().getProducts().get(pc.getKey()).getKey() <= pc.getValue().getKey()) {
                     removedProducts.put(pc.getKey(), market.getStorage().getProducts().remove(pc.getKey()));
                 } else {
-                    market.getStorage().getProducts().put(pc.getKey(), new Pair<Double, String>(market.getStorage().getProducts().get(pc.getKey()).getKey() - pc.getValue().getKey(), pc.getValue().getValue()));
+                    market.getStorage().getProducts().put(pc.getKey(), new Pair<Double, MeasureUnit>(market.getStorage().getProducts().get(pc.getKey()).getKey() - pc.getValue().getKey(), pc.getValue().getValue()));
                     removedProducts.put(pc.getKey(), market.getStorage().getProducts().get(pc.getKey()));
                 }
             }
@@ -52,7 +53,7 @@ public class SupermarketService {
         return removedProducts;
     }
 
-    public void MoveFromStorageToSupermarketHall(Supermarket market, Map<BaseProduct, Pair<Double, String>> prods) {
+    public void MoveFromStorageToSupermarketHall(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
         removeFromSupermarketStorage(market, prods);
 
        if (market.getHall() == null) {

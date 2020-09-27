@@ -6,13 +6,13 @@ public abstract class BaseProduct {
     private double cost;
     private int expDate;
     private Date productionDate;
-    private String measureUnit = null;
+    private MeasureUnit mu;
 
-    public BaseProduct(double cost, int expDate, Date productionDate, String measureUnit) {
+    public BaseProduct(double cost, int expDate, Date productionDate, MeasureUnit mu) {
         this.cost = cost;
         this.expDate = expDate;
         this.productionDate = productionDate;
-        this.measureUnit = measureUnit;
+        this.mu = mu;
     }
 
     public double getCost() {
@@ -31,7 +31,7 @@ public abstract class BaseProduct {
         return this.expDate;
     }
 
-    public String getMeasureUnit() {
-        return measureUnit;
+    public MeasureUnit getMeasureUnit() {
+        return this.mu;
     }
 }
