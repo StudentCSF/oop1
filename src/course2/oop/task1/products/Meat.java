@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Meat extends BaseProduct {
 
-    public Meat(double cost, int expDate, Date productionDate, MeasureUnit mu) {
-        super(cost, expDate, productionDate, mu);
+    public Meat(double cost, int expDate, Date productionDate) {
+        super(cost, expDate, productionDate, MeasureUnit.KG);
     }
 }
