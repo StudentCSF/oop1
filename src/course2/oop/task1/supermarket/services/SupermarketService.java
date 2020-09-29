@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class SupermarketService {
 
-    public void fillSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
+    public void fillStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
         if (market.getStorage() == null) {
             SupermarketPremise sp = new SupermarketPremise();
             sp.setProducts(prods);
@@ -25,7 +25,7 @@ public class SupermarketService {
 
     public void addStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
         if (market.getStorage() == null) {
-            fillSupermarketStorage(market, prods);
+            fillStorage(market, prods);
         } else {
             for (Map.Entry<BaseProduct, Pair<Double, MeasureUnit>> pc : prods.entrySet()) {
                 if (!market.getStorage().getProducts().containsKey(pc.getKey())) {
@@ -37,29 +37,40 @@ public class SupermarketService {
         }
     }
 
-    public Map<BaseProduct, Pair<Double, MeasureUnit>> removeFromSupermarketStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
+    public Map<BaseProduct, Pair<Double, MeasureUnit>> removeFromSupermarketPremise(SupermarketPremise sp, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) throws Exception {
         Map<BaseProduct, Pair<Double, MeasureUnit>> removedProducts = new HashMap<>();
-
-        if (market.getStorage() != null) {
+        if (sp == null) {
+            throw new Exception("Error. The supermarket premise is not exist.");
+        } else {
             for (Map.Entry<BaseProduct, Pair<Double, MeasureUnit>> pc : prods.entrySet()) {
-                if (market.getStorage().getProducts().get(pc.getKey()).getKey() <= pc.getValue().getKey()) {
-                    removedProducts.put(pc.getKey(), market.getStorage().getProducts().remove(pc.getKey()));
+                if (sp.getProducts().get(pc.getKey()).getKey() <= pc.getValue().getKey()) {
+                    removedProducts.put(pc.getKey(), sp.getProducts().remove(pc.getKey()));
                 } else {
-                    market.getStorage().getProducts().put(pc.getKey(), new Pair<Double, MeasureUnit>(market.getStorage().getProducts().get(pc.getKey()).getKey() - pc.getValue().getKey(), pc.getValue().getValue()));
-                    removedProducts.put(pc.getKey(), market.getStorage().getProducts().get(pc.getKey()));
+                    sp.getProducts().put(pc.getKey(), new Pair<Double, MeasureUnit>(sp.getProducts().get(pc.getKey()).getKey() - pc.getValue().getKey(), pc.getValue().getValue()));
+                    removedProducts.put(pc.getKey(), sp.getProducts().get(pc.getKey()));
                 }
             }
         }
         return removedProducts;
     }
 
-    public void MoveFromStorageToSupermarketHall(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) {
-        removeFromSupermarketStorage(market, prods);
+    public void MoveFromStorageToHall(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) throws Exception {
+        Map<BaseProduct, Pair<Double, MeasureUnit>> movingProds = removeFromSupermarketPremise(market.getStorage(), prods);
 
-       if (market.getHall() == null) {
-           SupermarketPremise sp = new SupermarketPremise();
-           sp.setProducts(prods);
-           market.setHall(sp);
-       }
+        if (market.getHall() == null) {
+            SupermarketPremise sp = new SupermarketPremise();
+            sp.setProducts(movingProds);
+            market.setHall(sp);
+        }
+
+    }
+
+    public void MoveFromHallToStorage(Supermarket market, Map<BaseProduct, Pair<Double, MeasureUnit>> prods) throws Exception {
+        if (market.getHall() == null) {
+            throw new Exception("Error. Supermarket hall is not exist.");
+        } else {
+            Map<BaseProduct, Pair<Double, MeasureUnit>> movingProds = removeFromSupermarketPremise(market.getHall(), prods);
+            addStorage(market, movingProds);
+        }
     }
 }
