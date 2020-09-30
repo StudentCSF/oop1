@@ -6,7 +6,7 @@ public abstract class BaseProduct {
     private double cost;
     private int expDate;
     private Date productionDate;
-    private MeasureUnit mu;
+    private MeasureUnit mu = null;
 
     public BaseProduct(double cost, int expDate, Date productionDate, MeasureUnit mu) {
         this.cost = cost;

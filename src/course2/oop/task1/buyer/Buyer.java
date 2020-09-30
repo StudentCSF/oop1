@@ -1,7 +1,6 @@
 package course2.oop.task1.buyer;
 
 import course2.oop.task1.products.BaseProduct;
-import course2.oop.task1.utils.Pair;
 
 import java.util.Map;
 import java.util.Set;
@@ -10,10 +9,10 @@ import java.util.Set;
 public class Buyer {
     private int age;
     private double availableMoney;
-    private Map<BaseProduct, Pair<Double, String>> shoppingList;
+    private Map<BaseProduct, Double> shoppingList;
     private Set<BuyerLimitations> limitations;
 
-    public Buyer(int age, double availableMoney, Map<BaseProduct, Pair<Double, String>> shoppingList, Set<BuyerLimitations> limits) {
+    public Buyer(int age, double availableMoney, Map<BaseProduct, Double> shoppingList, Set<BuyerLimitations> limits) {
         this.age = age;
         this.availableMoney = availableMoney;
         this.shoppingList = shoppingList;
@@ -28,7 +27,7 @@ public class Buyer {
         return availableMoney;
     }
 
-    public Map<BaseProduct, Pair<Double, String>> getShoppingList() {
+    public Map<BaseProduct, Double> getShoppingList() {
         return shoppingList;
     }
 
@@ -38,5 +37,17 @@ public class Buyer {
 
     public void setAvailableMoney(double availableMoney) {
         this.availableMoney = availableMoney;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setShoppingList(Map<BaseProduct, Double> shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+    public void setLimitations(Set<BuyerLimitations> limitations) {
+        this.limitations = limitations;
     }
 }
