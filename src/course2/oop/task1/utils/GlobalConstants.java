@@ -19,10 +19,16 @@ public class GlobalConstants {
             MilkProducts.class
     ));
 
-    public static final List<BuyerLimitations> BUYERlIMITS = new ArrayList<>(Arrays.asList(
+    public static final List<BuyerLimitations> BUYER_LIMITATIONS = new ArrayList<>(Arrays.asList(
             BuyerLimitations.CHEM,
             BuyerLimitations.MEAT,
             BuyerLimitations.MILK,
             BuyerLimitations.VaF
+    ));
+
+    public static final List<MeasureUnit> MEASURE_UNITS = new ArrayList<>(Arrays.asList(
+            MeasureUnit.KG,
+            MeasureUnit.LITERS,
+            MeasureUnit.PCS
     ));
 }
