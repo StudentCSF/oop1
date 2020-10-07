@@ -7,12 +7,12 @@ import java.util.Date;
 
 public class ProductService {
 
-    private static final Randomizer rdz = new Randomizer();
+    private static final Randomizer RDZ = new Randomizer();
 
     public void createRandomProduct(BaseProduct prod) {
-        prod.setCost(rdz.random());
-        prod.setExpDate(rdz.random(3, 100));
+        prod.setCost(RDZ.random());
+        prod.setExpDate(RDZ.random(3, 100));
         prod.setProductionDate(new Date());
-        prod.setMu(rdz.random(GlobalConstants.MEASURE_UNITS));
+        prod.setMu(RDZ.random(GlobalConstants.MEASURE_UNITS));
     }
 }

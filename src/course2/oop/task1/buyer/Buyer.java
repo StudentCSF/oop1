@@ -1,6 +1,8 @@
 package course2.oop.task1.buyer;
 
-import course2.oop.task1.products.BaseProduct;;
+;
+
+import course2.oop.task1.products.BaseProduct;
 
 import java.util.Map;
 import java.util.Set;
