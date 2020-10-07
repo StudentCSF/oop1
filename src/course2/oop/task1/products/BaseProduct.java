@@ -8,6 +8,9 @@ public abstract class BaseProduct {
     private Date productionDate = null;
     private MeasureUnit mu = null;
 
+    public BaseProduct() {
+    }
+
     public BaseProduct(double cost, int expDate, Date productionDate, MeasureUnit mu) {
         this.cost = cost;
         this.expDate = expDate;
@@ -49,5 +52,10 @@ public abstract class BaseProduct {
 
     public void setMu(MeasureUnit mu) {
         this.mu = mu;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.cost);
     }
 }
