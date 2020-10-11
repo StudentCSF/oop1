@@ -1,5 +1,6 @@
-package course2.oop.task1.products;
+package course2.oop.task1.products.service;
 
+import course2.oop.task1.products.BaseProduct;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 

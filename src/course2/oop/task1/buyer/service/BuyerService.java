@@ -1,5 +1,7 @@
-package course2.oop.task1.buyer;
+package course2.oop.task1.buyer.service;
 
+import course2.oop.task1.buyer.Buyer;
+import course2.oop.task1.buyer.BuyerLimitations;
 import course2.oop.task1.products.BaseProduct;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;

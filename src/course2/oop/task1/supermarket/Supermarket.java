@@ -1,5 +1,8 @@
 package course2.oop.task1.supermarket;
 
+import course2.oop.task1.supermarket.premise.Storage;
+import course2.oop.task1.supermarket.premise.TradeHall;
+
 public class Supermarket {
     private TradeHall hall = null;
     private Storage storage = null;

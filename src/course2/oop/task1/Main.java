@@ -1,6 +1,5 @@
 package course2.oop.task1;
 
-
 import course2.oop.task1.supermarket.Supermarket;
 
 public class Main {
