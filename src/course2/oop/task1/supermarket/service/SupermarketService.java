@@ -46,6 +46,19 @@ public class SupermarketService {
         return removedProducts;
     }
 
+    public double removeFromHall(Supermarket market, Class<? extends BaseProduct> prod, Double count) {
+        if (market.getHall() != null && market.getHall().getProducts().containsKey(prod)) {
+            if (count > market.getHall().getProducts().get(prod)) {
+                double res = market.getHall().getProducts().get(prod);
+                market.getHall().getProducts().remove(prod);
+                return res;
+            } else {
+                market.getHall().getProducts().put(prod, market.getHall().getProducts().get(prod) - count);
+            }
+        }
+        return 0;
+    }
+
     public void MoveFromStorageToHall(Supermarket market, Map<Class<? extends BaseProduct>, Double> prods) throws Exception {
         Map<Class<? extends BaseProduct>, Double> movingProds = removeFromSupermarketPremise(market.getStorage(), prods);
 

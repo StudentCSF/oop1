@@ -3,10 +3,10 @@ package course2.oop.task1.products;
 import java.util.Date;
 
 public abstract class BaseProduct {
-    private double cost;
-    private int expDate;
-    private Date productionDate = null;
-    private MeasureUnit mu = null;
+    protected double cost;
+    protected int expDate;
+    protected Date productionDate = null;
+    protected MeasureUnit mu = null;
 
     public BaseProduct() {
     }

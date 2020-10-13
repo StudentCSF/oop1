@@ -7,4 +7,8 @@ public class HouseholdChemicals extends BaseProduct {
     public HouseholdChemicals(double cost, int expDate, Date productionDate, MeasureUnit mu) {
         super(cost, expDate, productionDate , mu);
     }
+
+    public HouseholdChemicals() {
+        super();
+    }
 }

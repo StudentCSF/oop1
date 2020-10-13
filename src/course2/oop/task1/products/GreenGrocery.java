@@ -7,4 +7,8 @@ public class GreenGrocery extends BaseProduct {
     public GreenGrocery(double cost, int expDate, Date productionDate) {
         super(cost, expDate, productionDate, MeasureUnit.KG);
     }
+
+    public GreenGrocery() {
+        super();
+    }
 }

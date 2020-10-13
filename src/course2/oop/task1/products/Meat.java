@@ -7,4 +7,8 @@ public class Meat extends BaseProduct {
     public Meat(double cost, int expDate, Date productionDate) {
         super(cost, expDate, productionDate, MeasureUnit.KG);
     }
+
+    public Meat() {
+        super();
+    }
 }

@@ -7,4 +7,8 @@ public class MilkProducts extends BaseProduct {
     public MilkProducts(double cost, int expDate, Date productionDate, MeasureUnit mu) {
         super(cost, expDate, productionDate, mu);
     }
+
+    public MilkProducts() {
+        super();
+    }
 }

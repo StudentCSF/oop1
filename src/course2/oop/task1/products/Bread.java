@@ -7,4 +7,8 @@ public class Bread extends BaseProduct {
     public Bread(double cost, int expDate, Date productionDate) {
         super(cost, expDate, productionDate, MeasureUnit.PCS);
     }
+
+    public Bread() {
+        super();
+    }
 }
