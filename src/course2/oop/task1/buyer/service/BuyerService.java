@@ -3,6 +3,8 @@ package course2.oop.task1.buyer.service;
 import course2.oop.task1.buyer.Buyer;
 import course2.oop.task1.buyer.BuyerLimitations;
 import course2.oop.task1.products.BaseProduct;
+import course2.oop.task1.products.service.ProductService;
+import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 
@@ -22,11 +24,11 @@ public class BuyerService {
     }
 
     private void createRandomShoppingList(Buyer b)  {
-        Map<Class<? extends BaseProduct>, Double> shopList = new HashMap<>();
+        Map<BaseProduct, Double> shopList = new HashMap<>();
 
         int bound = RDZ.random(1, 30);
         for (int i = 0; i < bound; i++) {
-            Class<? extends BaseProduct> prod  = RDZ.random(GlobalConstants.PRODUCTS);
+            BaseProduct prod  = new ProductService().randomProduct(RDZ.random(0, GlobalConstants.PRODUCTS.size()));
             shopList.put(prod, RDZ.random() / 10);
         }
         b.setShoppingList(shopList);
@@ -40,5 +42,18 @@ public class BuyerService {
             lims.add(RDZ.random(GlobalConstants.BUYER_LIMITATIONS));
         }
         b.setLimitations(lims);
+    }
+
+    public double removeFromHall(Supermarket market, BaseProduct prod, Double count) {
+        if (market.getHall() != null && market.getHall().getProducts().containsKey(prod)) {
+            if (count > market.getHall().getProducts().get(prod)) {
+                double res = market.getHall().getProducts().get(prod);
+                market.getHall().getProducts().remove(prod);
+                return res;
+            } else {
+                market.getHall().getProducts().put(prod, market.getHall().getProducts().get(prod) - count);
+            }
+        }
+        return 0;
     }
 }

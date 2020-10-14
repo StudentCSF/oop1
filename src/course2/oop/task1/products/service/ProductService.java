@@ -1,6 +1,6 @@
 package course2.oop.task1.products.service;
 
-import course2.oop.task1.products.BaseProduct;
+import course2.oop.task1.products.*;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 
@@ -15,5 +15,18 @@ public class ProductService {
         prod.setExpDate(RDZ.random(3, 100));
         prod.setProductionDate(new Date());
         prod.setMu(RDZ.random(GlobalConstants.MEASURE_UNITS));
+    }
+
+    public BaseProduct randomProduct(int n) {
+        switch (n) {
+            case 0 : return new Alcohol();
+            case 1 : return new Bread();
+            case 2 : return new GreenGrocery();
+            case 3 : return new Grocery();
+            case 4 : return new HouseholdChemicals();
+            case 5 : return new Meat();
+            case 6 : return new MilkProducts();
+            default : return null;
+        }
     }
 }

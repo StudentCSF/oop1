@@ -6,13 +6,13 @@ import course2.oop.task1.utils.Pair;
 import java.util.Map;
 
 public abstract class SupermarketPremise {
-    private Map<Class<? extends BaseProduct>, Double> products = null;
+    private Map<BaseProduct, Double> products = null;
 
-    public Map<Class<? extends BaseProduct>, Double> getProducts() {
+    public Map<BaseProduct, Double> getProducts() {
         return products;
     }
 
-    public void setProducts(Map<Class<? extends BaseProduct>, Double> products) {
+    public void setProducts(Map<BaseProduct, Double> products) {
         this.products = products;
     }
 }

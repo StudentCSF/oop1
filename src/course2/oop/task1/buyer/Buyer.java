@@ -1,7 +1,5 @@
 package course2.oop.task1.buyer;
 
-;
-
 import course2.oop.task1.products.BaseProduct;
 
 import java.util.Map;
@@ -11,13 +9,13 @@ import java.util.Set;
 public class Buyer {
     private int age;
     private double availableMoney;
-    private Map<Class<? extends BaseProduct>, Double> shoppingList;
+    private Map<BaseProduct, Double> shoppingList;
     private Set<BuyerLimitations> limitations;
 
     public Buyer() {
     }
 
-    public Buyer(int age, double availableMoney, Map<Class<? extends BaseProduct>, Double> shoppingList, Set<BuyerLimitations> limits) {
+    public Buyer(int age, double availableMoney, Map<BaseProduct, Double> shoppingList, Set<BuyerLimitations> limits) {
         this.age = age;
         this.availableMoney = availableMoney;
         this.shoppingList = shoppingList;
@@ -32,7 +30,7 @@ public class Buyer {
         return availableMoney;
     }
 
-    public Map<Class<? extends BaseProduct>, Double> getShoppingList() {
+    public Map<BaseProduct, Double> getShoppingList() {
         return shoppingList;
     }
 
@@ -48,7 +46,7 @@ public class Buyer {
         this.age = age;
     }
 
-    public void setShoppingList(Map<Class<? extends BaseProduct>, Double> shoppingList) {
+    public void setShoppingList(Map<BaseProduct, Double> shoppingList) {
         this.shoppingList = shoppingList;
     }
 
@@ -56,12 +54,12 @@ public class Buyer {
         this.limitations = limitations;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Age - " + this.age + "\n");
         sb.append("Available Money - " + this.availableMoney + "\n");
-        for (Map.Entry<Class<? extends BaseProduct>, Double> kv : this.shoppingList.entrySet()) {
+        for (Map.Entry<BaseProduct, Double> kv : this.shoppingList.entrySet()) {
             sb.append("Prod - " + kv.getKey().toString() + "\n");
             sb.append("Count - " + kv.getValue() + "\n");
         }
@@ -71,5 +69,5 @@ public class Buyer {
             }
         }
         return sb.toString();
-    }
+    }*/
 }
