@@ -11,4 +11,9 @@ public class Alcohol extends BaseProduct {
     public Alcohol() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Алкоголь";
+    }
 }

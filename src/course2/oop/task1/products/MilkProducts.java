@@ -11,4 +11,9 @@ public class MilkProducts extends BaseProduct {
     public MilkProducts() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Молочные продукты";
+    }
 }

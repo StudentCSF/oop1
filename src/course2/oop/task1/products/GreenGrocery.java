@@ -11,4 +11,9 @@ public class GreenGrocery extends BaseProduct {
     public GreenGrocery() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Овощи/Фрукты";
+    }
 }

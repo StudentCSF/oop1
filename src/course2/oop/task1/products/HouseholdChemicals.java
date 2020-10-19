@@ -11,4 +11,9 @@ public class HouseholdChemicals extends BaseProduct {
     public HouseholdChemicals() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Химия";
+    }
 }

@@ -54,9 +54,17 @@ public abstract class BaseProduct {
         this.mu = mu;
     }
 
-    @Override
+   /* @Override
     public String toString() {
-        return String.valueOf(this.cost);
+        if (this instanceof Alcohol) {
+
+        } else if (this instanceof Bread) {
+
+        } else if (this instanceof GreenGrocery) {
+
+        } else if (this instanceof HouseholdChemicals) {
+
+        } else if (this instanceof MeasureUnit)
     }
-}
+*/}
 

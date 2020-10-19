@@ -11,4 +11,9 @@ public class Grocery extends BaseProduct {
     public Grocery() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Бакалейные товары";
+    }
 }

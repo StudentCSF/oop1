@@ -11,4 +11,9 @@ public class Meat extends BaseProduct {
     public Meat() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Мясо";
+    }
 }

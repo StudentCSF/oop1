@@ -9,7 +9,6 @@ import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.supermarket.service.SupermarketService;
 import course2.oop.task1.utils.Randomizer;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class MainService {
@@ -17,25 +16,39 @@ public class MainService {
     private static final SupermarketService SUP_SERV = new SupermarketService();
     private static final BuyerService BUY_SERV = new BuyerService();
     private static final ProductService PROD_SERV = new ProductService();
+    private static final MainServiceRapporteur RAPPORTEUR = new MainServiceRapporteur();
 
-    private static final int COUNTER = 0;
+    private int buyersCounter = 1;
 
-    private List<Buyer> buyersInSupermarket = null;
+    private List<Buyer> buyersInSupermarket = new ArrayList<>();
 
-    public MainService() throws NoSuchMethodException {
+    public MainService() {
     }
 
     public void simulate(Supermarket market) throws NoSuchMethodException {
-        Method m1 = this.getClass().getMethod("buyerArrived", Buyer.class);
+        for (int i = 0; i < 100; i++) {
+            int curr = RDZ.random(0, 3);
+            switch (curr) {
+                case 0:
+                    Buyer b = new Buyer();
+                    BUY_SERV.setBuyer(b);
+                    buyerArrived(b);
+                break;
+                case 1:
+                    purchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
+                break;
+                case 2: productsBroughtToSupermarket(market, null);
+                break;
+                default:
+            }
+        }
     }
-        MethodsArray ma = new MethodsArray(new Method[]{this.getClass().getMethod("buyerArrived", Buyer.class)});
+
 
     private void buyerArrived(Buyer b) {
-        if (buyersInSupermarket == null) {
-            buyersInSupermarket = new ArrayList<>();
-        }
         buyersInSupermarket.add(b);
-        System.out.println("Пришел покупатель #" + buyersInSupermarket.size());
+        RAPPORTEUR.buyerArrived(buyersCounter);
+        buyersCounter++;
     }
 
     private void purchase(Supermarket market, Buyer b) {
@@ -47,7 +60,7 @@ public class MainService {
                 if (currCost < money) {
                     BUY_SERV.removeFromHall(market, kv.getKey(), kv.getValue());
                     money -= currCost;
-                    System.out.println("Покупатель купил " + kv.getValue() + " " + kv.getKey().getMeasureUnit() + " " + kv.getKey());
+                    RAPPORTEUR.purchase(kv.getValue(), kv.getKey().getMeasureUnit(), kv.getKey());
                 }
             }
         }
@@ -55,24 +68,23 @@ public class MainService {
 
     private boolean canPurchase(Buyer b, BaseProduct p) {
         if (p instanceof Alcohol && b.getAge() < 18) {
-            System.out.println("Покупатель пытается купить алкоголь, но ему не продают в силу возраста");
             return false;
         }
         Set<BuyerLimitations> l = b.getLimitations();
         if (p instanceof Meat && l.contains(BuyerLimitations.MEAT)) {
-            System.out.println("Покупатель не будет покупать мясо, т.к. он вегетарианец");
+            RAPPORTEUR.cannotBuyAlcohol();
             return false;
         }
         if (p instanceof MilkProducts && l.contains(BuyerLimitations.MILK)) {
-            System.out.println("Покупатель не будет покупать молоко, т.к. у него его непереносимость");
+            RAPPORTEUR.cannotBuyMilk();
             return false;
         }
         if (p instanceof HouseholdChemicals && l.contains(BuyerLimitations.CHEM)) {
-            System.out.println("Покупатель не будет покупать химию, т.к. у него на неё аллергия");
+            RAPPORTEUR.cannotBuyChem();
             return false;
         }
         if (p instanceof GreenGrocery && l.contains(BuyerLimitations.VaF)) {
-            System.out.println("Покупатель не будет покупать фрукты и овощи, т.к. у него непереносимость клетчатки");
+            RAPPORTEUR.cannotBuyVegetablesAndFruits();
             return false;
         }
         return true;
@@ -80,11 +92,11 @@ public class MainService {
 
     private void productsBroughtToSupermarket(Supermarket market, Map<BaseProduct, Double> brought) {
         SUP_SERV.addStorage(market, brought);
-        System.out.println("Привезли товары");
+        RAPPORTEUR.broughtProducts();
     }
 
-    private Map<Class<? extends BaseProduct>, Double> createRandomProductsSet() {
-        Map<Class<? extends BaseProduct>, Double> prods = new HashMap<>();
+    private Map<BaseProduct, Double> createRandomProductsSet() {
+        Map<BaseProduct, Double> prods = new HashMap<>();
         return null;
     }
 }

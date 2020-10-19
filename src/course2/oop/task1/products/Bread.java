@@ -11,4 +11,9 @@ public class Bread extends BaseProduct {
     public Bread() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "Хлеб";
+    }
 }
