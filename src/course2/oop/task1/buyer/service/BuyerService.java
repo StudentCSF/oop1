@@ -17,7 +17,7 @@ public class BuyerService {
     public void setBuyer(Buyer b) {
         b.setAge(RDZ.random(5, 90));
         b.setShoppingList(new ProductService().createRandomProductsSet(RDZ.random(1, 30), -1));
-        b.setAvailableMoney(RDZ.random());
+        b.setAvailableMoney(RDZ.random(100.0, 10000.0));
         createRandomLims(b);
     }
 
@@ -26,12 +26,14 @@ public class BuyerService {
 
         int bound = RDZ.random(0, GlobalConstants.BUYER_LIMITATIONS.size());
         for (int i = 0; i < bound; i++) {
-            lims.add(RDZ.random(GlobalConstants.BUYER_LIMITATIONS));
+            if (RDZ.random(1, 100) % 3 == 0) {
+                lims.add(RDZ.random(GlobalConstants.BUYER_LIMITATIONS));
+            }
         }
         b.setLimitations(lims);
     }
 
-    public double removeFromHall(Supermarket market, BaseProduct prod, Double count) {
+    public double take(Supermarket market, BaseProduct prod, Double count) {
         if (market.getHall() != null && market.getHall().getProducts().containsKey(prod)) {
             if (count > market.getHall().getProducts().get(prod)) {
                 double res = market.getHall().getProducts().get(prod);
@@ -39,8 +41,9 @@ public class BuyerService {
                 return res;
             } else {
                 market.getHall().getProducts().put(prod, market.getHall().getProducts().get(prod) - count);
+                return count;
             }
         }
-        return 0;
+        return 0.0;
     }
 }

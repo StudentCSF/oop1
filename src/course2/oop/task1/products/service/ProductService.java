@@ -32,14 +32,19 @@ public class ProductService {
         for (int i = 0; i < bound; i++) {
             BaseProduct prod  = new ProductService().randomProduct(RDZ.random(0, 38));
             setRandomProduct(prod, currDate);
-            double count = prod.getMeasureUnit() == MeasureUnit.pcs ? Math.round(RDZ.random() / 10) + 1 : RDZ.random() / 10;
+            double count;
+            if (bound > 100) {
+                count = prod.getMeasureUnit() == MeasureUnit.pcs ? RDZ.random(10, 100) : RDZ.random(10.0, 100.0);
+            } else {
+                count = prod.getMeasureUnit() == MeasureUnit.pcs ? RDZ.random(1, 10) : RDZ.random(0.1, 10.0);
+            }
             res.put(prod, count);
         }
         return res;
     }
 
     public void setRandomProduct(BaseProduct prod, int date) {
-        prod.setCost(RDZ.random());
+        prod.setCost(RDZ.random(20.0, 1000.0));
         prod.setExpDate(RDZ.random(3, 100));
         if (date > -1) {
             prod.setProductionDate(date);

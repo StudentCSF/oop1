@@ -14,8 +14,13 @@ public class Randomizer {
         return rnd.nextInt(to - from) + from;
     }
 
-    public double random() {
+   /* public double random() {
         String str = String.valueOf(rnd.nextDouble() * 1000);
+        return Double.parseDouble(str.substring(0, str.indexOf(".") + 3));
+    }*/
+
+    public double random(double from, double to) {
+        String str = String.valueOf(rnd.nextDouble() * (to - from) + from);
         return Double.parseDouble(str.substring(0, str.indexOf(".") + 3));
     }
 }

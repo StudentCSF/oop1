@@ -16,16 +16,17 @@ public class SupermarketService {
             Storage sp = new Storage();
             sp.setProducts(prods);
             market.setStorage(sp);
-        } else if (market.getStorage().getProducts() == null) {
+        } /*else if (market.getStorage().getProducts() == null) {
             market.getStorage().setProducts(prods);
-        } else {
-            for (Map.Entry<BaseProduct, Double> pc : prods.entrySet()) {
+        } */else {
+          /*  for (Map.Entry<BaseProduct, Double> pc : prods.entrySet()) {
                 if (!market.getStorage().getProducts().containsKey(pc.getKey())) {
                     market.getStorage().getProducts().put(pc.getKey(), pc.getValue());
                 } else {
                     market.getStorage().getProducts().put(pc.getKey(), market.getStorage().getProducts().get(pc.getKey()) + pc.getValue());
                 }
-            }
+            }*/
+            market.getStorage().getProducts().putAll(prods);
         }
     }
 
@@ -46,7 +47,7 @@ public class SupermarketService {
         return removedProducts;
     }
 
-    public void moveFromStorageToHall(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
+    /*public void moveFromStorageToHall(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
         Map<BaseProduct, Double> movingProds = removeFromSupermarketPremise(market.getStorage(), prods);
 
         if (market.getHall() == null) {
@@ -54,8 +55,17 @@ public class SupermarketService {
             sp.setProducts(movingProds);
             market.setHall(sp);
         }
+    }*/
 
+    public void simpleMoveFromStorageToHall(Supermarket market) throws Exception {
+        if (market.getHall() == null) {
+            TradeHall sp = new TradeHall();
+            market.setHall(sp);
+        }
+        market.getHall().getProducts().putAll(removeFromSupermarketPremise(market.getStorage(), market.getStorage().getProducts()));
+        //sp.setProducts(removeFromSupermarketPremise(market.getStorage(), market.getStorage().getProducts()));
     }
+    //market.getHall(removeFromSupermarketPremise(market.getStorage(), market.getStorage().getProducts()));
 
     public void moveFromHallToStorage(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
         if (market.getHall() == null) {
@@ -77,5 +87,17 @@ public class SupermarketService {
             moveFromHallToStorage(market, forRemove);
             removeFromSupermarketPremise(market.getStorage(), forRemove);
         }
+    }
+
+    public double hasProduct(Supermarket market, BaseProduct prod) {
+        if (market.getHall() != null) {
+            Map<BaseProduct, Double> prodsInHall = market.getHall().getProducts();
+            for (Map.Entry<BaseProduct, Double> kv : prodsInHall.entrySet()) {
+                if (prod.getClass().equals(kv.getKey().getClass())) {
+                    return kv.getValue();
+                }
+            }
+        }
+        return -1.0;
     }
 }

@@ -38,49 +38,82 @@ public class MainService {
 
     public void simulate(Supermarket market) throws Exception {
         int currDate = 0;
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1000; i++) {
+            if (i==500) {
+                test(market.getHall().getProducts());
+            }
             int curr = RDZ.random(0, 4);
+            curr = i % 2== 0 ? 2 : 4;
             switch (curr) {
-                case 0:
+               /* case 0:
                     Buyer b = new Buyer();
                     BUY_SERV.setBuyer(b);
                     buyerArrived(b);
-                break;
+                    RAPPORTEUR.report("Пришел покупатель #" + buyersCounter);
+                    buyersCounter++;
+                    break;
                 case 1:
                     if (!buyersInSupermarket.isEmpty()) {
                         buyerPurchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
                     }
-                break;
-                case 2: productsBroughtToSupermarket(market, currDate);
-                break;
-                case 3: SUP_SERV.checkProducts(market, currDate);
-                RAPPORTEUR.productsWasChecked();
+                    break;*/
+                case 2:
+                    productsBroughtToSupermarket(market, currDate);
+                    //RAPPORTEUR.report("Привезли товары");
+                    break;
+               /* case 3:
+                    SUP_SERV.checkProducts(market, currDate);
+                    RAPPORTEUR.report("Персонал проверил товары на годность");
+                    break;*/
+                case 4:
+                    SUP_SERV.simpleMoveFromStorageToHall(market);
+                    //RAPPORTEUR.report("Товары со склада перенесли в торговый зал");
+                    break;
                 default:
+                    continue;
             }
+
             if (i % 100 == 0) {
                 currDate++;
             }
         }
     }
 
+    private void test(Map<BaseProduct, Double> m) {
+        System.out.println(m.size());
+        for (Map.Entry<BaseProduct, Double> kv : m.entrySet()) {
+            System.out.println(kv.getKey() + " " + kv.getValue());
+        }
+    }
+
 
     private void buyerArrived(Buyer b) {
         buyersInSupermarket.add(new Pair<Integer, Buyer>(buyersCounter, b));
-        RAPPORTEUR.buyerArrived(buyersCounter);
-        buyersCounter++;
     }
 
     private void buyerPurchase(Supermarket market, Pair<Integer, Buyer> b) {
-        double money = b.getValue().getAvailableMoney();
+        //double money = b.getValue().getAvailableMoney();
         Map<BaseProduct, Double> lp = b.getValue().getShoppingList();
         for (Map.Entry<BaseProduct, Double> kv : lp.entrySet()) {
-            if (canPurchase(b, kv.getKey())) {
-                double currCost = kv.getKey().getCost() * kv.getValue();
-                if (currCost < money) {
-                    BUY_SERV.removeFromHall(market, kv.getKey(), kv.getValue());
-                    money -= currCost;
-                    RAPPORTEUR.purchase(kv.getKey(), kv.getKey().getMeasureUnit(), b.getKey(), kv.getValue());
+            if (SUP_SERV.hasProduct(market, kv.getKey()) >= kv.getValue()) {
+                if (canPurchase(b, kv.getKey())) {
+                    double currCost = kv.getKey().getCost() * kv.getValue();
+                    if (currCost < b.getValue().getAvailableMoney()) {
+                        //double flag = BUY_SERV.take(market, kv.getKey(), kv.getValue());
+                    /*if (flag < 1E-6) {
+                        RAPPORTEUR.report("Покупатель #" + b.getKey() + " не нашел искомый товар");
+                        continue;
+                    }*/
+                        market.getHall().getProducts().put(kv.getKey(), market.getHall().getProducts().get(kv.getKey()) - kv.getValue());
+                        b.getValue().setAvailableMoney(b.getValue().getAvailableMoney() - currCost);
+                        //money -= currCost;
+                        RAPPORTEUR.report("Покупатель #" + b.getKey() + " купил " + kv.getValue() + " " + kv.getKey().getMeasureUnit() + " " + kv.getKey());
+                    } else {
+                        RAPPORTEUR.report("У покупателя #" + b.getKey() + " не хватает денег на данный товар");
+                    }
                 }
+            } else {
+                RAPPORTEUR.report("Покупатель #" + b.getKey() + " не нашел нужного товара в магазине");
             }
         }
         buyersInSupermarket.remove(b);
@@ -92,27 +125,26 @@ public class MainService {
         }
         Set<BuyerLimitations> l = b.getValue().getLimitations();
         if (p instanceof BaseMeat && l.contains(BuyerLimitations.MEAT)) {
-            RAPPORTEUR.cannotBuyAlcohol(b.getKey());
+            RAPPORTEUR.report("Покупатель #" + b.getKey() + " пытается купить алкоголь, но ему не продают в силу возраста");
             return false;
         }
         if (p instanceof BaseMilkProducts && l.contains(BuyerLimitations.MILK)) {
-            RAPPORTEUR.cannotBuyMilk(b.getKey());
+            RAPPORTEUR.report("Покупатель #" + b.getKey() + " не будет покупать молоко, т.к. у него его непереносимость");
             return false;
         }
         if (p instanceof BaseHouseholdChemicals && l.contains(BuyerLimitations.CHEM)) {
-            RAPPORTEUR.cannotBuyChem(b.getKey());
+            RAPPORTEUR.report("Покупатель #" + b.getKey() + " не будет покупать химию, т.к. у него на неё аллергия");
             return false;
         }
         if (p instanceof BaseGreenGrocery && l.contains(BuyerLimitations.VaF)) {
-            RAPPORTEUR.cannotBuyVegetablesAndFruits(b.getKey());
+            RAPPORTEUR.report("Покупатель #" + b.getKey() + " не будет покупать фрукты и овощи, т.к. у него непереносимость клетчатки");
             return false;
         }
         return true;
     }
 
     private void productsBroughtToSupermarket(Supermarket market, int date) {
-        Map<BaseProduct, Double> brought = PROD_SERV.createRandomProductsSet(RDZ.random(20, 50), date);
+        Map<BaseProduct, Double> brought = PROD_SERV.createRandomProductsSet(RDZ.random(300, 1000), date);
         SUP_SERV.addStorage(market, brought);
-        RAPPORTEUR.broughtProducts();
     }
 }
