@@ -1,14 +1,20 @@
 package course2.oop.task1.products;
 
+import course2.oop.task1.products.grocery.BaseGrocery;
+
 import java.util.Date;
 
 public abstract class BaseProduct {
     protected double cost;
     protected int expDate;
     protected int productionDate;
-    protected MeasureUnit mu = null;
+    protected MeasureUnit mu;
 
     public BaseProduct() {
+    }
+
+    public BaseProduct(MeasureUnit mu) {
+        this.mu = mu;
     }
 
     public BaseProduct(double cost, int expDate, int productionDate, MeasureUnit mu) {
@@ -50,9 +56,9 @@ public abstract class BaseProduct {
         this.productionDate = productionDate;
     }
 
-    public void setMu(MeasureUnit mu) {
+    /*public void setMu(MeasureUnit mu) {
         this.mu = mu;
-    }
+    }*/
 
    /* @Override
     public String toString() {

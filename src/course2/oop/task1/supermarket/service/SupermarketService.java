@@ -18,7 +18,7 @@ public class SupermarketService {
             market.setStorage(sp);
         } else if (market.getStorage().getProducts() == null) {
             market.getStorage().setProducts(prods);
-        }  else {
+        } else {
             for (Map.Entry<BaseProduct, Double> pc : prods.entrySet()) {
                 if (!market.getStorage().getProducts().containsKey(pc.getKey())) {
                     market.getStorage().getProducts().put(pc.getKey(), pc.getValue());
@@ -29,7 +29,7 @@ public class SupermarketService {
         }
     }
 
-    public Map<BaseProduct, Double> removeFromSupermarketPremise(SupermarketPremise sp, Map<BaseProduct, Double> prods) throws Exception {
+    private Map<BaseProduct, Double> removeFromSupermarketPremise(SupermarketPremise sp, Map<BaseProduct, Double> prods) throws Exception {
         Map<BaseProduct, Double> removedProducts = new HashMap<>();
         if (sp == null) {
             throw new Exception("Error. The supermarket premise is not exist.");
@@ -46,7 +46,7 @@ public class SupermarketService {
         return removedProducts;
     }
 
-    public void MoveFromStorageToHall(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
+    public void moveFromStorageToHall(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
         Map<BaseProduct, Double> movingProds = removeFromSupermarketPremise(market.getStorage(), prods);
 
         if (market.getHall() == null) {
@@ -57,12 +57,25 @@ public class SupermarketService {
 
     }
 
-    public void MoveFromHallToStorage(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
+    public void moveFromHallToStorage(Supermarket market, Map<BaseProduct, Double> prods) throws Exception {
         if (market.getHall() == null) {
             throw new Exception("Error. Supermarket hall is not exist.");
         } else {
             Map<BaseProduct, Double> movingProds = removeFromSupermarketPremise(market.getHall(), prods);
             addStorage(market, movingProds);
+        }
+    }
+
+    public void checkProducts(Supermarket market, int currDate) throws Exception {
+        if (market.getHall() != null) {
+            Map<BaseProduct, Double> forRemove = new HashMap<>();
+            for (Map.Entry<BaseProduct, Double> kv : market.getHall().getProducts().entrySet()) {
+                if (kv.getKey().getProductionDate() + kv.getKey().getExpDate() > currDate) {
+                    forRemove.put(kv.getKey(), kv.getValue());
+                }
+            }
+            moveFromHallToStorage(market, forRemove);
+            removeFromSupermarketPremise(market.getStorage(), forRemove);
         }
     }
 }

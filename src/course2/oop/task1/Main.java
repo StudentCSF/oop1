@@ -4,7 +4,7 @@ import course2.oop.task1.supermarket.Supermarket;
 
 public class Main {
 
-    public static void main(String[] args) throws NoSuchMethodException {
+    public static void main(String[] args) throws Exception {
         Supermarket market = new Supermarket();
         MainService ms = new MainService();
         ms.simulate(market);

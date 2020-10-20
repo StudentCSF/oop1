@@ -4,6 +4,11 @@ import course2.oop.task1.buyer.Buyer;
 import course2.oop.task1.buyer.BuyerLimitations;
 import course2.oop.task1.buyer.service.BuyerService;
 import course2.oop.task1.products.*;
+import course2.oop.task1.products.drink.BaseDrink;
+import course2.oop.task1.products.chem.BaseHouseholdChemicals;
+import course2.oop.task1.products.green_grocery.BaseGreenGrocery;
+import course2.oop.task1.products.meat.BaseMeat;
+import course2.oop.task1.products.milk.BaseMilkProducts;
 import course2.oop.task1.products.service.ProductService;
 import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.supermarket.service.SupermarketService;
@@ -31,9 +36,10 @@ public class MainService {
         RAPPORTEUR = new MainServiceRapporteur();
     }
 
-    public void simulate(Supermarket market) {
-        for (int i = 0; i < 100; i++) {
-            int curr = RDZ.random(0, 3);
+    public void simulate(Supermarket market) throws Exception {
+        int currDate = 0;
+        for (int i = 0; i < 10000; i++) {
+            int curr = RDZ.random(0, 4);
             switch (curr) {
                 case 0:
                     Buyer b = new Buyer();
@@ -45,9 +51,14 @@ public class MainService {
                         buyerPurchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
                     }
                 break;
-                case 2: productsBroughtToSupermarket(market, null);
+                case 2: productsBroughtToSupermarket(market, currDate);
                 break;
+                case 3: SUP_SERV.checkProducts(market, currDate);
+                RAPPORTEUR.productsWasChecked();
                 default:
+            }
+            if (i % 100 == 0) {
+                currDate++;
             }
         }
     }
@@ -76,37 +87,32 @@ public class MainService {
     }
 
     private boolean canPurchase(Pair<Integer, Buyer> b, BaseProduct p) {
-        if (p instanceof Alcohol && b.getValue().getAge() < 18) {
+        if (p instanceof BaseDrink && b.getValue().getAge() < 18) {
             return false;
         }
         Set<BuyerLimitations> l = b.getValue().getLimitations();
-        if (p instanceof Meat && l.contains(BuyerLimitations.MEAT)) {
+        if (p instanceof BaseMeat && l.contains(BuyerLimitations.MEAT)) {
             RAPPORTEUR.cannotBuyAlcohol(b.getKey());
             return false;
         }
-        if (p instanceof MilkProducts && l.contains(BuyerLimitations.MILK)) {
+        if (p instanceof BaseMilkProducts && l.contains(BuyerLimitations.MILK)) {
             RAPPORTEUR.cannotBuyMilk(b.getKey());
             return false;
         }
-        if (p instanceof HouseholdChemicals && l.contains(BuyerLimitations.CHEM)) {
+        if (p instanceof BaseHouseholdChemicals && l.contains(BuyerLimitations.CHEM)) {
             RAPPORTEUR.cannotBuyChem(b.getKey());
             return false;
         }
-        if (p instanceof GreenGrocery && l.contains(BuyerLimitations.VaF)) {
+        if (p instanceof BaseGreenGrocery && l.contains(BuyerLimitations.VaF)) {
             RAPPORTEUR.cannotBuyVegetablesAndFruits(b.getKey());
             return false;
         }
         return true;
     }
 
-    private void productsBroughtToSupermarket(Supermarket market, Map<BaseProduct, Double> brought) {
+    private void productsBroughtToSupermarket(Supermarket market, int date) {
+        Map<BaseProduct, Double> brought = PROD_SERV.createRandomProductsSet(RDZ.random(20, 50), date);
         SUP_SERV.addStorage(market, brought);
         RAPPORTEUR.broughtProducts();
-    }
-
-    private Map<BaseProduct, Double> createRandomProductsSet() {
-        Map<BaseProduct, Double> prods = new HashMap<>();
-
-        return prods;
     }
 }

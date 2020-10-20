@@ -8,9 +8,7 @@ import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class BuyerService {
@@ -18,20 +16,9 @@ public class BuyerService {
 
     public void setBuyer(Buyer b) {
         b.setAge(RDZ.random(5, 90));
-        createRandomShoppingList(b);
+        b.setShoppingList(new ProductService().createRandomProductsSet(RDZ.random(1, 30), -1));
         b.setAvailableMoney(RDZ.random());
         createRandomLims(b);
-    }
-
-    private void createRandomShoppingList(Buyer b)  {
-        Map<BaseProduct, Double> shopList = new HashMap<>();
-
-        int bound = RDZ.random(1, 30);
-        for (int i = 0; i < bound; i++) {
-            BaseProduct prod  = new ProductService().randomProduct(RDZ.random(0, GlobalConstants.PRODUCTS.size()));
-            shopList.put(prod, RDZ.random() / 10);
-        }
-        b.setShoppingList(shopList);
     }
 
     private void createRandomLims(Buyer b) {
