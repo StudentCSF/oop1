@@ -5,20 +5,20 @@ import java.util.Date;
 public abstract class BaseProduct {
     protected double cost;
     protected int expDate;
-    protected Date productionDate = null;
+    protected int productionDate;
     protected MeasureUnit mu = null;
 
     public BaseProduct() {
     }
 
-    public BaseProduct(double cost, int expDate, Date productionDate, MeasureUnit mu) {
+    public BaseProduct(double cost, int expDate, int productionDate, MeasureUnit mu) {
         this.cost = cost;
         this.expDate = expDate;
         this.productionDate = productionDate;
         this.mu = mu;
     }
 
-    public BaseProduct(Date productionDate) {
+    public BaseProduct(int productionDate) {
         this.productionDate = productionDate;
     }
 
@@ -30,7 +30,7 @@ public abstract class BaseProduct {
         this.cost = newCost;
     }
 
-    public Date getProductionDate() {
+    public int getProductionDate() {
         return this.productionDate;
     }
 
@@ -46,7 +46,7 @@ public abstract class BaseProduct {
         this.expDate = expDate;
     }
 
-    public void setProductionDate(Date productionDate) {
+    public void setProductionDate(int productionDate) {
         this.productionDate = productionDate;
     }
 

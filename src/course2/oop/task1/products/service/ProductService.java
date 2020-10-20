@@ -4,8 +4,6 @@ import course2.oop.task1.products.*;
 import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 
-import java.util.Date;
-
 public class ProductService {
 
     private static final Randomizer RDZ = new Randomizer();
@@ -13,7 +11,7 @@ public class ProductService {
     public void createRandomProduct(BaseProduct prod) {
         prod.setCost(RDZ.random());
         prod.setExpDate(RDZ.random(3, 100));
-        prod.setProductionDate(new Date());
+        //prod.setProductionDate(date);
         prod.setMu(RDZ.random(GlobalConstants.MEASURE_UNITS));
     }
 

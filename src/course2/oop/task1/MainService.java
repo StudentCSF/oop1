@@ -7,25 +7,31 @@ import course2.oop.task1.products.*;
 import course2.oop.task1.products.service.ProductService;
 import course2.oop.task1.supermarket.Supermarket;
 import course2.oop.task1.supermarket.service.SupermarketService;
+import course2.oop.task1.utils.Pair;
 import course2.oop.task1.utils.Randomizer;
 
 import java.util.*;
 
 public class MainService {
-    private static final Randomizer RDZ = new Randomizer();
-    private static final SupermarketService SUP_SERV = new SupermarketService();
-    private static final BuyerService BUY_SERV = new BuyerService();
-    private static final ProductService PROD_SERV = new ProductService();
-    private static final MainServiceRapporteur RAPPORTEUR = new MainServiceRapporteur();
+    private Randomizer RDZ;
+    private SupermarketService SUP_SERV;
+    private BuyerService BUY_SERV;
+    private ProductService PROD_SERV;
+    private MainServiceRapporteur RAPPORTEUR;
 
     private int buyersCounter = 1;
 
-    private List<Buyer> buyersInSupermarket = new ArrayList<>();
+    private List<Pair<Integer, Buyer>> buyersInSupermarket = new ArrayList<>();
 
     public MainService() {
+        RDZ = new Randomizer();
+        SUP_SERV = new SupermarketService();
+        BUY_SERV = new BuyerService();
+        PROD_SERV = new ProductService();
+        RAPPORTEUR = new MainServiceRapporteur();
     }
 
-    public void simulate(Supermarket market) throws NoSuchMethodException {
+    public void simulate(Supermarket market) {
         for (int i = 0; i < 100; i++) {
             int curr = RDZ.random(0, 3);
             switch (curr) {
@@ -35,7 +41,9 @@ public class MainService {
                     buyerArrived(b);
                 break;
                 case 1:
-                    purchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
+                    if (!buyersInSupermarket.isEmpty()) {
+                        buyerPurchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
+                    }
                 break;
                 case 2: productsBroughtToSupermarket(market, null);
                 break;
@@ -46,45 +54,46 @@ public class MainService {
 
 
     private void buyerArrived(Buyer b) {
-        buyersInSupermarket.add(b);
+        buyersInSupermarket.add(new Pair<Integer, Buyer>(buyersCounter, b));
         RAPPORTEUR.buyerArrived(buyersCounter);
         buyersCounter++;
     }
 
-    private void purchase(Supermarket market, Buyer b) {
-        double money = b.getAvailableMoney();
-        Map<BaseProduct, Double> lp = b.getShoppingList();
+    private void buyerPurchase(Supermarket market, Pair<Integer, Buyer> b) {
+        double money = b.getValue().getAvailableMoney();
+        Map<BaseProduct, Double> lp = b.getValue().getShoppingList();
         for (Map.Entry<BaseProduct, Double> kv : lp.entrySet()) {
             if (canPurchase(b, kv.getKey())) {
                 double currCost = kv.getKey().getCost() * kv.getValue();
                 if (currCost < money) {
                     BUY_SERV.removeFromHall(market, kv.getKey(), kv.getValue());
                     money -= currCost;
-                    RAPPORTEUR.purchase(kv.getValue(), kv.getKey().getMeasureUnit(), kv.getKey());
+                    RAPPORTEUR.purchase(kv.getKey(), kv.getKey().getMeasureUnit(), b.getKey(), kv.getValue());
                 }
             }
         }
+        buyersInSupermarket.remove(b);
     }
 
-    private boolean canPurchase(Buyer b, BaseProduct p) {
-        if (p instanceof Alcohol && b.getAge() < 18) {
+    private boolean canPurchase(Pair<Integer, Buyer> b, BaseProduct p) {
+        if (p instanceof Alcohol && b.getValue().getAge() < 18) {
             return false;
         }
-        Set<BuyerLimitations> l = b.getLimitations();
+        Set<BuyerLimitations> l = b.getValue().getLimitations();
         if (p instanceof Meat && l.contains(BuyerLimitations.MEAT)) {
-            RAPPORTEUR.cannotBuyAlcohol();
+            RAPPORTEUR.cannotBuyAlcohol(b.getKey());
             return false;
         }
         if (p instanceof MilkProducts && l.contains(BuyerLimitations.MILK)) {
-            RAPPORTEUR.cannotBuyMilk();
+            RAPPORTEUR.cannotBuyMilk(b.getKey());
             return false;
         }
         if (p instanceof HouseholdChemicals && l.contains(BuyerLimitations.CHEM)) {
-            RAPPORTEUR.cannotBuyChem();
+            RAPPORTEUR.cannotBuyChem(b.getKey());
             return false;
         }
         if (p instanceof GreenGrocery && l.contains(BuyerLimitations.VaF)) {
-            RAPPORTEUR.cannotBuyVegetablesAndFruits();
+            RAPPORTEUR.cannotBuyVegetablesAndFruits(b.getKey());
             return false;
         }
         return true;
@@ -97,6 +106,7 @@ public class MainService {
 
     private Map<BaseProduct, Double> createRandomProductsSet() {
         Map<BaseProduct, Double> prods = new HashMap<>();
-        return null;
+
+        return prods;
     }
 }

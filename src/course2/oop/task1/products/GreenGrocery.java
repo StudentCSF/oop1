@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class GreenGrocery extends BaseProduct {
 
-    public GreenGrocery(double cost, int expDate, Date productionDate) {
+    public GreenGrocery(double cost, int expDate, int productionDate) {
         super(cost, expDate, productionDate, MeasureUnit.KG);
     }
 
