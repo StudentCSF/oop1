@@ -36,16 +36,13 @@ public class MainService {
         RAPPORTEUR = new MainServiceRapporteur();
     }
 
-    public void simulate(Supermarket market) throws Exception {
+    public void simulate(Supermarket market) {
+        //RAPPORTEUR.silence();
         int currDate = 0;
-        for (int i = 0; i < 1000; i++) {
-            if (i==500) {
-                test(market.getHall().getProducts());
-            }
-            int curr = RDZ.random(0, 4);
-            curr = i % 2== 0 ? 2 : 4;
+        for (int i = 0; i < 10000; i++) {
+            int curr = RDZ.random(0, 5);
             switch (curr) {
-               /* case 0:
+                case 0:
                     Buyer b = new Buyer();
                     BUY_SERV.setBuyer(b);
                     buyerArrived(b);
@@ -56,23 +53,22 @@ public class MainService {
                     if (!buyersInSupermarket.isEmpty()) {
                         buyerPurchase(market, buyersInSupermarket.get(RDZ.random(0, buyersInSupermarket.size())));
                     }
-                    break;*/
+                    break;
                 case 2:
                     productsBroughtToSupermarket(market, currDate);
-                    //RAPPORTEUR.report("Привезли товары");
+                    RAPPORTEUR.report("Привезли товары");
                     break;
-               /* case 3:
+                case 3:
                     SUP_SERV.checkProducts(market, currDate);
                     RAPPORTEUR.report("Персонал проверил товары на годность");
-                    break;*/
+                    break;
                 case 4:
                     SUP_SERV.simpleMoveFromStorageToHall(market);
-                    //RAPPORTEUR.report("Товары со склада перенесли в торговый зал");
+                    RAPPORTEUR.report("Товары со склада перенесли в торговый зал");
                     break;
                 default:
                     continue;
             }
-
             if (i % 100 == 0) {
                 currDate++;
             }
@@ -92,21 +88,15 @@ public class MainService {
     }
 
     private void buyerPurchase(Supermarket market, Pair<Integer, Buyer> b) {
-        //double money = b.getValue().getAvailableMoney();
         Map<BaseProduct, Double> lp = b.getValue().getShoppingList();
         for (Map.Entry<BaseProduct, Double> kv : lp.entrySet()) {
-            if (SUP_SERV.hasProduct(market, kv.getKey()) >= kv.getValue()) {
+            if (SUP_SERV.hasProduct(market, true, kv.getKey())) {
                 if (canPurchase(b, kv.getKey())) {
                     double currCost = kv.getKey().getCost() * kv.getValue();
                     if (currCost < b.getValue().getAvailableMoney()) {
-                        //double flag = BUY_SERV.take(market, kv.getKey(), kv.getValue());
-                    /*if (flag < 1E-6) {
-                        RAPPORTEUR.report("Покупатель #" + b.getKey() + " не нашел искомый товар");
-                        continue;
-                    }*/
-                        market.getHall().getProducts().put(kv.getKey(), market.getHall().getProducts().get(kv.getKey()) - kv.getValue());
+                        BaseProduct realKey = SUP_SERV.getSimilar(market, kv.getKey());
+                        market.getHall().getProducts().put(realKey, market.getHall().getProducts().get(realKey) - kv.getValue());
                         b.getValue().setAvailableMoney(b.getValue().getAvailableMoney() - currCost);
-                        //money -= currCost;
                         RAPPORTEUR.report("Покупатель #" + b.getKey() + " купил " + kv.getValue() + " " + kv.getKey().getMeasureUnit() + " " + kv.getKey());
                     } else {
                         RAPPORTEUR.report("У покупателя #" + b.getKey() + " не хватает денег на данный товар");

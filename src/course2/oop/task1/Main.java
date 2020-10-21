@@ -1,11 +1,10 @@
 package course2.oop.task1;
 
 import course2.oop.task1.supermarket.Supermarket;
-import course2.oop.task1.utils.Randomizer;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Supermarket market = new Supermarket();
         MainService ms = new MainService();
         ms.simulate(market);
