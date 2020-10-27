@@ -4,5 +4,5 @@ public enum BuyerLimitations {
     MEAT,
     MILK,
     CHEM,
-    VaF;
+    VaF
 }

@@ -15,13 +15,6 @@ public class Buyer {
     public Buyer() {
     }
 
-    public Buyer(int age, double availableMoney, Map<BaseProduct, Double> shoppingList, Set<BuyerLimitations> limits) {
-        this.age = age;
-        this.availableMoney = availableMoney;
-        this.shoppingList = shoppingList;
-        this.limitations = limits;
-    }
-
     public int getAge() {
         return age;
     }
@@ -54,20 +47,4 @@ public class Buyer {
         this.limitations = limitations;
     }
 
-   /* @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Age - " + this.age + "\n");
-        sb.append("Available Money - " + this.availableMoney + "\n");
-        for (Map.Entry<BaseProduct, Double> kv : this.shoppingList.entrySet()) {
-            sb.append("Prod - " + kv.getKey().toString() + "\n");
-            sb.append("Count - " + kv.getValue() + "\n");
-        }
-        if (this.limitations != null) {
-            for (BuyerLimitations lim : this.limitations) {
-                sb.append(lim.toString() + "\n");
-            }
-        }
-        return sb.toString();
-    }*/
 }

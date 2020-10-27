@@ -16,7 +16,6 @@ import course2.oop.task1.products.green_grocery.*;
 import course2.oop.task1.products.grocery.*;
 import course2.oop.task1.products.meat.*;
 import course2.oop.task1.products.milk.*;
-import course2.oop.task1.utils.GlobalConstants;
 import course2.oop.task1.utils.Randomizer;
 
 import java.util.HashMap;
@@ -30,7 +29,8 @@ public class ProductService {
         Map<BaseProduct, Double> res = new HashMap<>();
 
         for (int i = 0; i < bound; i++) {
-            BaseProduct prod  = new ProductService().randomProduct(RDZ.random(0, 38));
+            BaseProduct prod  = randomProduct(RDZ.random(0, 38));
+            if (prod == null) continue;
             setRandomProduct(prod, currDate);
             double count;
             if (bound > 100) {
@@ -43,7 +43,7 @@ public class ProductService {
         return res;
     }
 
-    public void setRandomProduct(BaseProduct prod, int date) {
+    private void setRandomProduct(BaseProduct prod, int date) {
         prod.setCost(RDZ.random(20.0, 1000.0));
         prod.setExpDate(RDZ.random(3, 100));
         if (date > -1) {
@@ -51,7 +51,7 @@ public class ProductService {
         }
     }
 
-    public BaseProduct randomProduct(int n) {
+    private BaseProduct randomProduct(int n) {
         switch (n) {
             case 0: return new Beer();
             case 1: return new Vodka();

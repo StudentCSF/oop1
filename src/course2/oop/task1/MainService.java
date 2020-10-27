@@ -18,15 +18,15 @@ import course2.oop.task1.utils.Randomizer;
 import java.util.*;
 
 public class MainService {
-    private Randomizer RDZ;
-    private SupermarketService SUP_SERV;
-    private BuyerService BUY_SERV;
-    private ProductService PROD_SERV;
-    private MainServiceRapporteur RAPPORTEUR;
+    private final Randomizer RDZ;
+    private final SupermarketService SUP_SERV;
+    private final BuyerService BUY_SERV;
+    private final ProductService PROD_SERV;
+    private final MainServiceRapporteur RAPPORTEUR;
 
     private int buyersCounter = 1;
 
-    private List<Pair<Integer, Buyer>> buyersInSupermarket = new ArrayList<>();
+    private final List<Pair<Integer, Buyer>> buyersInSupermarket = new ArrayList<>();
 
     public MainService() {
         RDZ = new Randomizer();
@@ -37,7 +37,6 @@ public class MainService {
     }
 
     public void simulate(Supermarket market) {
-        //RAPPORTEUR.silence();
         int currDate = 0;
         for (int i = 0; i < 10000; i++) {
             int curr = RDZ.random(0, 5);
@@ -75,16 +74,8 @@ public class MainService {
         }
     }
 
-    private void test(Map<BaseProduct, Double> m) {
-        System.out.println(m.size());
-        for (Map.Entry<BaseProduct, Double> kv : m.entrySet()) {
-            System.out.println(kv.getKey() + " " + kv.getValue());
-        }
-    }
-
-
     private void buyerArrived(Buyer b) {
-        buyersInSupermarket.add(new Pair<Integer, Buyer>(buyersCounter, b));
+        buyersInSupermarket.add(new Pair<>(buyersCounter, b));
     }
 
     private void buyerPurchase(Supermarket market, Pair<Integer, Buyer> b) {

@@ -4,8 +4,8 @@ import course2.oop.task1.supermarket.premise.Storage;
 import course2.oop.task1.supermarket.premise.TradeHall;
 
 public class Supermarket {
-    private TradeHall hall;
-    private Storage storage;
+    private final TradeHall hall;
+    private final Storage storage;
 
     public Supermarket() {
         this.hall = new TradeHall();
@@ -18,13 +18,5 @@ public class Supermarket {
 
     public Storage getStorage() {
         return storage;
-    }
-
-    public void setHall(TradeHall hall) {
-        this.hall = hall;
-    }
-
-    public void setStorage(Storage storage) {
-        this.storage = storage;
     }
 }

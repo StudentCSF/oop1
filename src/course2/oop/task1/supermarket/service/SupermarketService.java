@@ -87,9 +87,6 @@ public class SupermarketService {
         }
 
         BaseProduct p = getSimilar(prodsInHall, prod);
-        if (p != null) {
-            return true;
-        }
-        return false;
+        return p != null;
     }
 }
